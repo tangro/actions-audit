@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import path from 'path';
 import { Result } from '../Result';
 
-interface Audit {
+export interface Audit {
   metadata: {
     vulnerabilities: {
       info: number;

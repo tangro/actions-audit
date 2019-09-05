@@ -1,7 +1,12 @@
 import * as core from '@actions/core';
-import { GitHubContext, setStatus } from '@tangro/tangro-github-toolkit';
+import {
+  GitHubContext,
+  setStatus,
+  createComment
+} from '@tangro/tangro-github-toolkit';
 import { runAudit } from './audit/runAudit';
 import { Result } from './Result';
+import { createCommentText } from './audit/comment';
 
 async function wrapWithSetStatus<T>(
   context: GitHubContext,
@@ -54,11 +59,16 @@ async function run() {
       process.env.GITHUB_CONTEXT || ''
     ) as GitHubContext;
 
-    await wrapWithSetStatus(context, 'audit', async () => {
+    const result = await wrapWithSetStatus(context, 'audit', async () => {
       return await runAudit();
     });
 
-    core.debug('debug message');
+    if (core.getInput('post-comment') === 'true' && result) {
+      createComment({
+        context,
+        comment: createCommentText(result)
+      });
+    }
   } catch (error) {
     core.setFailed(error.message);
   }

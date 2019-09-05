@@ -1,6 +1,10 @@
 name: 'Tangro Audit'
 description: 'Run npm audit'
 author: 'tangro'
+inputs:
+  post-comment:
+    description: 'Set to true to post a comment after the audit result has been collected. Default false'
+    default: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
