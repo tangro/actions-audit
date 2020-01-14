@@ -60,6 +60,7 @@ export async function runAudit(): Promise<Result<Audit['metadata']>> {
   await exec('npm', ['audit', '--json'], options);
 
   try {
+    console.log(output);
     const auditResult: Audit = JSON.parse(output);
     fs.mkdirSync('audit');
     fs.writeFileSync(
@@ -72,6 +73,7 @@ export async function runAudit(): Promise<Result<Audit['metadata']>> {
     );
     return parseAudit(auditResult);
   } catch (error) {
+    console.error(error);
     throw error;
   }
 }
