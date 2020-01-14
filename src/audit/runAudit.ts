@@ -51,6 +51,9 @@ export async function runAudit(): Promise<Result<Audit['metadata']>> {
     listeners: {
       stdout: (data: Buffer) => {
         output += data.toString();
+      },
+      stderr: (data: Buffer) => {
+        output += data.toString();
       }
     }
   };
