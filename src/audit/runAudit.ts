@@ -1,7 +1,7 @@
-import { exec } from '@actions/exec';
-import * as fs from 'fs';
-import path from 'path';
-import { Result } from '../Result';
+import { exec } from "@actions/exec";
+import * as fs from "fs";
+import path from "path";
+import { Result } from "../Result";
 
 export interface Audit {
   metadata: {
@@ -19,7 +19,7 @@ export interface Audit {
   };
 }
 
-const parseAudit = (audit: Audit): Result<Audit['metadata']> => {
+const parseAudit = (audit: Audit): Result<Audit["metadata"]> => {
   const vulnerabilities = audit.metadata.vulnerabilities;
   const sumOfVulnerabilities = Object.keys(vulnerabilities).reduce(
     (sum, key) => sum + vulnerabilities[key],
@@ -29,7 +29,7 @@ const parseAudit = (audit: Audit): Result<Audit['metadata']> => {
   const shortText = `info: ${vulnerabilities.info} low: ${vulnerabilities.low} moderate: ${vulnerabilities.moderate} high: ${vulnerabilities.high} critical: ${vulnerabilities.critical}`;
   const metadata = audit.metadata;
   const text = `${sumOfVulnerabilities} ${
-    sumOfVulnerabilities === 1 ? 'vulnerability' : 'vulnerabilities'
+    sumOfVulnerabilities === 1 ? "vulnerability" : "vulnerabilities"
   } detected in ${audit.metadata.totalDependencies} total dependencies:
   \ninfo: ${vulnerabilities.info}
   \nlow: ${vulnerabilities.low}
@@ -45,9 +45,10 @@ const parseAudit = (audit: Audit): Result<Audit['metadata']> => {
   };
 };
 
-export async function runAudit(): Promise<Result<Audit['metadata']>> {
-  let output = '';
+export async function runAudit(): Promise<Result<Audit["metadata"]>> {
+  let output = "";
   const options = {
+    failOnStdErr: false,
     listeners: {
       stdout: (data: Buffer) => {
         output += data.toString();
@@ -59,13 +60,13 @@ export async function runAudit(): Promise<Result<Audit['metadata']>> {
   };
 
   try {
-    await exec('npm', ['audit', '--json'], options);
+    await exec("npm", ["audit", "--json"], options);
 
     console.log(output);
     const auditResult: Audit = JSON.parse(output);
-    fs.mkdirSync('audit');
+    fs.mkdirSync("audit");
     fs.writeFileSync(
-      path.join('audit', 'index.html'),
+      path.join("audit", "index.html"),
       `<html><body><pre><code>${JSON.stringify(
         auditResult,
         null,
