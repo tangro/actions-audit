@@ -60,7 +60,7 @@ export async function runAudit(): Promise<Result<Audit["metadata"]>> {
 
   try {
     console.log("Before executing exec");
-    exec("npm", ["audit", "--json"], options)
+    await exec("npm", ["audit", "--json", "--audit-level=moderate"], options)
       .then((exitCode: number) => {
         console.log("After executing exec finished with exitCode " + exitCode);
       })
