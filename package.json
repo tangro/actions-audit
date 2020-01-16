@@ -1,6 +1,6 @@
 {
   "name": "@tangro/actions-audit",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "private": true,
   "description": "Run npm audit",
   "main": "lib/main.js",
