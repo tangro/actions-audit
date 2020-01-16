@@ -50,10 +50,10 @@ export async function runAudit(): Promise<Result<Audit["metadata"]>> {
   const options = {
     listeners: {
       stdout: (data: Buffer) => {
-        output += data.toString();
+        output += data.toString().replace(/`/g, "");
       },
       stderr: (data: Buffer) => {
-        output += data.toString();
+        output += data.toString().replace(/`/g, "");
       }
     }
   };
