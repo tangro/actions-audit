@@ -64,7 +64,83 @@ export async function runAudit(): Promise<Result<Audit["metadata"]>> {
 
     console.log(output);
     console.log("Vor JSON.parse");
-    const auditResult: Audit = JSON.parse(JSON.stringify(output));
+    const auditResult: Audit = JSON.parse(
+      JSON.stringify({
+        actions: [
+          {
+            action: "review",
+            module: "node-sass",
+            resolves: [
+              {
+                id: 961,
+                path: "node-sass",
+                dev: true,
+                bundled: false,
+                optional: false
+              }
+            ]
+          }
+        ],
+        advisories: {
+          "961": {
+            findings: [
+              {
+                version: "4.13.0",
+                paths: ["node-sass"]
+              }
+            ],
+            id: 961,
+            created: "2019-06-12T13:44:17.616Z",
+            updated: "2020-01-13T20:16:49.738Z",
+            deleted: null,
+            title: "Denial of Service",
+            found_by: {
+              link: "",
+              name: "Alexander Jordan",
+              email: ""
+            },
+            reported_by: {
+              link: "",
+              name: "Alexander Jordan",
+              email: ""
+            },
+            module_name: "node-sass",
+            cves: [],
+            vulnerable_versions: ">=0.0.0",
+            patched_versions: "<0.0.0",
+            overview:
+              "All versions of `node-sass` are vulnerable to Denial of Service (DoS). Crafted objects passed to the `renderSync` function may trigger C++ assertions in `CustomImporterBridge::get_importer_entry` and `CustomImporterBridge::post_process_return_value` that crash the Node process. This may allow attackers to crash the system's running Node process and lead to Denial of Service.",
+            recommendation:
+              "No fix is currently available. Consider using an alternative package until a fix is made available.",
+            references: "",
+            access: "public",
+            severity: "low",
+            cwe: "CWE-400",
+            metadata: {
+              module_type: "",
+              exploitability: 2,
+              affected_components: ""
+            },
+            url: "https://npmjs.com/advisories/961"
+          }
+        },
+        muted: [],
+        metadata: {
+          vulnerabilities: {
+            info: 0,
+            low: 1,
+            moderate: 0,
+            high: 0,
+            critical: 0
+          },
+          dependencies: 396,
+          devDependencies: 926402,
+          optionalDependencies: 10307,
+          totalDependencies: 926798
+        },
+        runId: "c6476823-afb9-45e5-8bd6-753fc404394c"
+      })
+    );
     console.log("Nach JSON.parse");
     fs.mkdirSync("audit");
     fs.writeFileSync(
