@@ -62,8 +62,7 @@ export async function runAudit(): Promise<Result<Audit["metadata"]>> {
   try {
     await exec("npm", ["audit", "--json"], options);
 
-    console.log(output);
-    console.log("Vor JSON.parse");
+    // console.log(output);
     const auditResult: Audit = JSON.parse(
       JSON.stringify({
         actions: [
@@ -108,8 +107,7 @@ export async function runAudit(): Promise<Result<Audit["metadata"]>> {
             cves: [],
             vulnerable_versions: ">=0.0.0",
             patched_versions: "<0.0.0",
-            overview:
-              "All versions of `node-sass` are vulnerable to Denial of Service (DoS). Crafted objects passed to the `renderSync` function may trigger C++ assertions in `CustomImporterBridge::get_importer_entry` and `CustomImporterBridge::post_process_return_value` that crash the Node process. This may allow attackers to crash the system's running Node process and lead to Denial of Service.",
+            overview: "All versions Service.",
             recommendation:
               "No fix is currently available. Consider using an alternative package until a fix is made available.",
             references: "",
@@ -141,7 +139,8 @@ export async function runAudit(): Promise<Result<Audit["metadata"]>> {
         runId: "c6476823-afb9-45e5-8bd6-753fc404394c"
       })
     );
-    console.log("Nach JSON.parse");
+    console.log("Audit result");
+    console.log(auditResult);
     fs.mkdirSync("audit");
     fs.writeFileSync(
       path.join("audit", "index.html"),
@@ -153,6 +152,7 @@ export async function runAudit(): Promise<Result<Audit["metadata"]>> {
     );
     return parseAudit(auditResult);
   } catch (error) {
+    console.log("this is an error");
     console.error(error);
     throw error;
   }
