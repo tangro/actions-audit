@@ -57,18 +57,10 @@ export async function runAudit(): Promise<Result<Audit["metadata"]>> {
       }
     }
   };
-
   try {
-    console.log("Before executing exec");
-    await exec("npm", ["audit", "--json", "--audit-level=moderate"], options)
-      .then((exitCode: number) => {
-        console.log("After executing exec finished with exitCode " + exitCode);
-      })
-      .catch((error: Error) => {
-        console.log("Fallen into an error:");
-        console.log(error);
-      });
-    const auditResult: Audit = JSON.parse(output.replace(/`/g, ""));
+    await exec("npm", ["audit", "--json", "--audit-level=moderate"], options);
+    console.log(output);
+    const auditResult: Audit = JSON.parse(output);
     fs.mkdirSync("audit");
     fs.writeFileSync(
       path.join("audit", "index.html"),
