@@ -1,6 +1,6 @@
 {
   "name": "@tangro/actions-audit",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "private": true,
   "description": "Run npm audit",
   "main": "lib/main.js",
@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.0.0",
-    "@actions/exec": "^1.0.0",
+    "@actions/exec": "^1.0.3",
     "@tangro/tangro-github-toolkit": "0.4.0"
   },
   "devDependencies": {
