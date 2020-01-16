@@ -50,10 +50,10 @@ export async function runAudit(): Promise<Result<Audit["metadata"]>> {
   const options = {
     listeners: {
       stdout: (data: Buffer) => {
-        output += data.toString().replace(/`/g, "");
+        output += data.toString();
       },
       stderr: (data: Buffer) => {
-        output += data.toString().replace(/`/g, "");
+        output += data.toString();
       }
     }
   };
@@ -68,7 +68,7 @@ export async function runAudit(): Promise<Result<Audit["metadata"]>> {
         console.log("Fallen into an error:");
         console.log(error);
       });
-    const auditResult: Audit = JSON.parse(output);
+    const auditResult: Audit = JSON.parse(output.replace(/`/g, ""));
     fs.mkdirSync("audit");
     fs.writeFileSync(
       path.join("audit", "index.html"),
