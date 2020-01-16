@@ -48,7 +48,6 @@ const parseAudit = (audit: Audit): Result<Audit["metadata"]> => {
 export async function runAudit(): Promise<Result<Audit["metadata"]>> {
   let output = "";
   const options = {
-    failOnStdErr: false,
     listeners: {
       stdout: (data: Buffer) => {
         output += data.toString();
@@ -60,87 +59,12 @@ export async function runAudit(): Promise<Result<Audit["metadata"]>> {
   };
 
   try {
+    console.log("Before executing exec");
     await exec("npm", ["audit", "--json"], options);
+    console.log("After executing exec");
 
-    // console.log(output);
-    const auditResult: Audit = JSON.parse(
-      JSON.stringify({
-        actions: [
-          {
-            action: "review",
-            module: "node-sass",
-            resolves: [
-              {
-                id: 961,
-                path: "node-sass",
-                dev: true,
-                bundled: false,
-                optional: false
-              }
-            ]
-          }
-        ],
-        advisories: {
-          "961": {
-            findings: [
-              {
-                version: "4.13.0",
-                paths: ["node-sass"]
-              }
-            ],
-            id: 961,
-            created: "2019-06-12T13:44:17.616Z",
-            updated: "2020-01-13T20:16:49.738Z",
-            deleted: null,
-            title: "Denial of Service",
-            found_by: {
-              link: "",
-              name: "Alexander Jordan",
-              email: ""
-            },
-            reported_by: {
-              link: "",
-              name: "Alexander Jordan",
-              email: ""
-            },
-            module_name: "node-sass",
-            cves: [],
-            vulnerable_versions: ">=0.0.0",
-            patched_versions: "<0.0.0",
-            overview: "All versions Service.",
-            recommendation:
-              "No fix is currently available. Consider using an alternative package until a fix is made available.",
-            references: "",
-            access: "public",
-            severity: "low",
-            cwe: "CWE-400",
-            metadata: {
-              module_type: "",
-              exploitability: 2,
-              affected_components: ""
-            },
-            url: "https://npmjs.com/advisories/961"
-          }
-        },
-        muted: [],
-        metadata: {
-          vulnerabilities: {
-            info: 0,
-            low: 1,
-            moderate: 0,
-            high: 0,
-            critical: 0
-          },
-          dependencies: 396,
-          devDependencies: 926402,
-          optionalDependencies: 10307,
-          totalDependencies: 926798
-        },
-        runId: "c6476823-afb9-45e5-8bd6-753fc404394c"
-      })
-    );
-    console.log("Audit result");
-    console.log(auditResult);
+    console.log(output);
+    const auditResult: Audit = JSON.parse(output);
     fs.mkdirSync("audit");
     fs.writeFileSync(
       path.join("audit", "index.html"),
@@ -152,7 +76,6 @@ export async function runAudit(): Promise<Result<Audit["metadata"]>> {
     );
     return parseAudit(auditResult);
   } catch (error) {
-    console.log("this is an error");
     console.error(error);
     throw error;
   }
