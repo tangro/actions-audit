@@ -63,7 +63,9 @@ export async function runAudit(): Promise<Result<Audit["metadata"]>> {
     await exec("npm", ["audit", "--json"], options);
 
     console.log(output);
-    const auditResult: Audit = JSON.parse(output);
+    console.log("Vor JSON.parse");
+    const auditResult: Audit = JSON.parse(JSON.stringify(output));
+    console.log("Nach JSON.parse");
     fs.mkdirSync("audit");
     fs.writeFileSync(
       path.join("audit", "index.html"),
