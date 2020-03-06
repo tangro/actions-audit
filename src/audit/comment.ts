@@ -1,5 +1,5 @@
-import { Result } from '../Result';
 import { Audit } from './runAudit';
+import { Result } from '@tangro/tangro-github-toolkit';
 
 export function createCommentText(audit: Result<Audit['metadata']>): string {
   if (audit.isOkay) {

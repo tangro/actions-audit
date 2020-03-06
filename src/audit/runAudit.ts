@@ -1,7 +1,7 @@
 import { exec } from '@actions/exec';
 import * as fs from 'fs';
 import path from 'path';
-import { Result } from '../Result';
+import { Result } from '@tangro/tangro-github-toolkit';
 
 export interface Audit {
   metadata: {

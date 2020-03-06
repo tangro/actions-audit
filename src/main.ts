@@ -1,44 +1,11 @@
 import * as core from '@actions/core';
 import {
   GitHubContext,
-  setStatus,
-  createComment
+  createComment,
+  wrapWithSetStatus
 } from '@tangro/tangro-github-toolkit';
 import { runAudit } from './audit/runAudit';
-import { Result } from './Result';
 import { createCommentText } from './audit/comment';
-
-async function wrapWithSetStatus<T>(
-  context: GitHubContext,
-  step: string,
-  code: () => Promise<Result<T>>
-) {
-  setStatus({
-    context,
-    step,
-    description: `Running ${step}`,
-    state: 'pending'
-  });
-
-  try {
-    const result = await code();
-    setStatus({
-      context,
-      step,
-      description: result.shortText,
-      state: result.isOkay ? 'success' : 'failure'
-    });
-    return result;
-  } catch (error) {
-    setStatus({
-      context,
-      step,
-      description: `Failed: ${step}`,
-      state: 'failure'
-    });
-    core.setFailed(`CI failed at step: ${step}`);
-  }
-}
 
 async function run() {
   try {
@@ -57,7 +24,7 @@ async function run() {
     }
     const context = JSON.parse(
       process.env.GITHUB_CONTEXT || ''
-    ) as GitHubContext;
+    ) as GitHubContext<{}>;
 
     const result = await wrapWithSetStatus(context, 'audit', async () => {
       return await runAudit();
@@ -70,6 +37,7 @@ async function run() {
       });
     }
   } catch (error) {
+    console.log(error);
     core.setFailed(error.message);
   }
 }
