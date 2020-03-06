@@ -57,10 +57,8 @@ export async function runAudit(): Promise<Result<Audit['metadata']>> {
       }
     }
   };
-
   try {
-    await exec('npm', ['audit', '--json'], options);
-
+    await exec('npm', ['audit', '--json', '--audit-level=moderate'], options);
     console.log(output);
     const auditResult: Audit = JSON.parse(output);
     fs.mkdirSync('audit');
