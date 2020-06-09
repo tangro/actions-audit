@@ -6,6 +6,12 @@ A @tangro action to run `npm audit --json`. It also adds a status for the audit.
 
 You can use a specific `version` of this action. You can also use `latest` to always get the latest version.
 
+Parameters:
+
+```
+workingDirectory?: string;
+```
+
 # Example
 
 ```yml

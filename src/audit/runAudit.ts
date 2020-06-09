@@ -1,3 +1,4 @@
+import * as core from '@actions/core';
 import { exec } from '@actions/exec';
 import * as fs from 'fs';
 import path from 'path';
@@ -41,7 +42,7 @@ const parseAudit = (audit: Audit): Result<Audit['metadata']> => {
     metadata,
     isOkay,
     shortText,
-    text
+    text,
   };
 };
 
@@ -54,10 +55,14 @@ export async function runAudit(): Promise<Result<Audit['metadata']>> {
       },
       stderr: (data: Buffer) => {
         output += data.toString();
-      }
-    }
+      },
+    },
   };
   try {
+    const workingDirectory = core.getInput('workingDirectory');
+    if (workingDirectory) {
+      await exec(`cd ${workingDirectory}`);
+    }
     await exec('npm', ['audit', '--json', '--audit-level=moderate'], options);
     console.log(output);
     const auditResult: Audit = JSON.parse(output);
