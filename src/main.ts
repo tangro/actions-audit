@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 import {
   GitHubContext,
   createComment,
-  wrapWithSetStatus
+  wrapWithSetStatus,
 } from '@tangro/tangro-github-toolkit';
 import { runAudit } from './audit/runAudit';
 import { createCommentText } from './audit/comment';
@@ -27,13 +27,13 @@ async function run() {
     ) as GitHubContext<{}>;
 
     const result = await wrapWithSetStatus(context, 'audit', async () => {
-      return await runAudit();
+      return await runAudit(context);
     });
 
     if (core.getInput('post-comment') === 'true' && result) {
       createComment({
         context,
-        comment: createCommentText(result)
+        comment: createCommentText(result),
       });
     }
   } catch (error) {
