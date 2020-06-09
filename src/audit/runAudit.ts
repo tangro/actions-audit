@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 import { exec } from '@actions/exec';
 import * as fs from 'fs';
 import path from 'path';
-import { Result } from '@tangro/tangro-github-toolkit';
+import { Result, GitHubContext } from '@tangro/tangro-github-toolkit';
 
 export interface Audit {
   metadata: {
@@ -46,7 +46,9 @@ const parseAudit = (audit: Audit): Result<Audit['metadata']> => {
   };
 };
 
-export async function runAudit(): Promise<Result<Audit['metadata']>> {
+export async function runAudit(
+  context: GitHubContext<{}>
+): Promise<Result<Audit['metadata']>> {
   let output = '';
   const options = {
     listeners: {
@@ -60,8 +62,16 @@ export async function runAudit(): Promise<Result<Audit['metadata']>> {
   };
   try {
     const workingDirectory = core.getInput('workingDirectory');
+    console.log('workingDirectory: ', workingDirectory);
+
     if (workingDirectory) {
-      await exec(`cd ${workingDirectory}`);
+      const [owner, repo] = context.repository.split('/');
+      const execPath = path.join(
+        process.env.RUNNER_WORKSPACE as string,
+        repo,
+        workingDirectory
+      );
+      await exec(`cd ${execPath}`);
     }
     await exec('npm', ['audit', '--json', '--audit-level=moderate'], options);
     console.log(output);
