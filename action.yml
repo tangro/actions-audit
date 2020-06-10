@@ -5,6 +5,8 @@ inputs:
   post-comment:
     description: 'Set to true to post a comment after the audit result has been collected. Default false'
     default: false
+  workingDirectory:
+    description: 'Set the working directory'
 runs:
   using: 'node12'
   main: 'dist/index.js'

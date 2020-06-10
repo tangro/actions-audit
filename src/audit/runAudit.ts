@@ -62,16 +62,21 @@ export async function runAudit(
   };
   try {
     const workingDirectory = core.getInput('workingDirectory');
-    console.log('workingDirectory: ', workingDirectory);
-
     if (workingDirectory) {
       const [owner, repo] = context.repository.split('/');
+
+      console.log('RUNNER_WORKSPACE: ', process.env.RUNNER_WORKSPACE);
+      console.log('repo: ', repo);
+      console.log('workingDirectory: ', workingDirectory);
+
       const execPath = path.join(
         process.env.RUNNER_WORKSPACE as string,
         repo,
         workingDirectory
       );
-      await exec(`cd ${execPath}`);
+      console.log('execPath: ', execPath);
+
+      options['cwd'] = execPath;
     }
     await exec('npm', ['audit', '--json', '--audit-level=moderate'], options);
     console.log(output);
