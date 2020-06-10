@@ -27,12 +27,8 @@ async function run() {
     ) as GitHubContext<{}>;
 
     const result = await wrapWithSetStatus(context, 'audit', async () => {
-      const auditresult = await runAudit(context);
-      console.log('auditresult: ', auditresult);
-      return auditresult;
+      return await runAudit(context);
     });
-
-    console.log('result: ', result);
 
     if (core.getInput('post-comment') === 'true' && result) {
       createComment({
@@ -40,6 +36,7 @@ async function run() {
         comment: createCommentText(result),
       });
     }
+    console.log('result: ', result);
   } catch (error) {
     console.log(error);
     core.setFailed(error.message);
