@@ -64,22 +64,15 @@ export async function runAudit(
     const workingDirectory = core.getInput('workingDirectory');
     if (workingDirectory) {
       const [owner, repo] = context.repository.split('/');
-
-      console.log('RUNNER_WORKSPACE: ', process.env.RUNNER_WORKSPACE);
-      console.log('repo: ', repo);
-      console.log('workingDirectory: ', workingDirectory);
-
       const execPath = path.join(
         process.env.RUNNER_WORKSPACE as string,
         repo,
         workingDirectory
       );
-      console.log('execPath: ', execPath);
-
       options['cwd'] = execPath;
     }
     await exec('npm', ['audit', '--json', '--audit-level=moderate'], options);
-    console.log(output);
+    console.log('output: ', output);
     const auditResult: Audit = JSON.parse(output);
     fs.mkdirSync('audit');
     fs.writeFileSync(
@@ -92,7 +85,7 @@ export async function runAudit(
     );
     return parseAudit(auditResult);
   } catch (error) {
-    console.error(error);
+    console.error('error: ', error);
     throw error;
   }
 }

@@ -27,8 +27,12 @@ async function run() {
     ) as GitHubContext<{}>;
 
     const result = await wrapWithSetStatus(context, 'audit', async () => {
-      return await runAudit(context);
+      const auditresult = await runAudit(context);
+      console.log('auditresult: ', auditresult);
+      return auditresult;
     });
+
+    console.log('result: ', result);
 
     if (core.getInput('post-comment') === 'true' && result) {
       createComment({
