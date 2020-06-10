@@ -51,13 +51,12 @@ export async function runAudit(
 ): Promise<Result<Audit['metadata']>> {
   let output = '';
   const options = {
+    ignoreReturnCode: true,
     listeners: {
       stdout: (data: Buffer) => {
-        console.log('stdout ', output);
         output += data.toString();
       },
       stderr: (data: Buffer) => {
-        console.log('stderr ', output);
         output += data.toString();
       },
     },
@@ -73,7 +72,6 @@ export async function runAudit(
       );
       options['cwd'] = execPath;
     }
-    console.log('options: ', options);
     await exec('npm', ['audit', '--json', '--audit-level=moderate'], options);
     console.log('output: ', output);
     const auditResult: Audit = JSON.parse(output);
