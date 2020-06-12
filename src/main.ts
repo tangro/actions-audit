@@ -27,7 +27,6 @@ async function run() {
     ) as GitHubContext<{}>;
 
     const actionName = core.getInput('actionName') || 'audit';
-    console.log('actionName ', actionName);
     const result = await wrapWithSetStatus(context, actionName, async () => {
       return await runAudit(context);
     });
