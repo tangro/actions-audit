@@ -7,6 +7,10 @@ inputs:
     default: false
   workingDirectory:
     description: 'Set the working directory'
+    default: ''
+  actionName:
+    description: 'Set different action name. This is needet if the action is uset more than one in a repo.'
+    default: 'audit'
 runs:
   using: 'node12'
   main: 'dist/index.js'

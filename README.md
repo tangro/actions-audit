@@ -9,7 +9,8 @@ You can use a specific `version` of this action. You can also use `latest` to al
 Parameters:
 
 ```
-workingDirectory?: string;
+workingDirectory?: string;   (default: '')
+actionName?: string;         (default: 'audit')
 ```
 
 # Example

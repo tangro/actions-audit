@@ -26,7 +26,9 @@ async function run() {
       process.env.GITHUB_CONTEXT || ''
     ) as GitHubContext<{}>;
 
-    const result = await wrapWithSetStatus(context, 'audit', async () => {
+    const actionName = core.getInput('actionName') || 'audit';
+    console.log('actionName ', actionName);
+    const result = await wrapWithSetStatus(context, actionName, async () => {
       return await runAudit(context);
     });
 
@@ -36,7 +38,6 @@ async function run() {
         comment: createCommentText(result),
       });
     }
-    console.log('result: ', result);
   } catch (error) {
     console.log(error);
     core.setFailed(error.message);
