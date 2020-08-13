@@ -53,7 +53,7 @@ It is also possible that the action posts a comment with the result to the commi
 
 ```yml
 - name: Run audit
-  uses: tangro/actions-audit@1.1.0
+  uses: tangro/actions-audit@1.1.10
   with:
     post-comment: true
   env:
