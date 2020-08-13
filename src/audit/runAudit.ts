@@ -3,8 +3,12 @@ import { exec } from '@actions/exec';
 import * as fs from 'fs';
 import path from 'path';
 import { Result, GitHubContext } from '@tangro/tangro-github-toolkit';
+import { generateAuditDetails } from './auditDetails';
 
 export interface Audit {
+  actions: Array<any>;
+  muted: Array<any>;
+  advisories: { [key: string]: any };
   metadata: {
     vulnerabilities: {
       info: number;
@@ -78,11 +82,7 @@ export async function runAudit(
     fs.mkdirSync('audit');
     fs.writeFileSync(
       path.join('audit', 'index.html'),
-      `<html><body><pre><code>${JSON.stringify(
-        auditResult,
-        null,
-        2
-      )}</code></pre></body></html>`
+      generateAuditDetails(auditResult)
     );
     return parseAudit(auditResult);
   } catch (error) {
