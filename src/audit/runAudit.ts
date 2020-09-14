@@ -46,7 +46,7 @@ const parseAudit = (audit: Audit): Result<Audit['metadata']> => {
     metadata,
     isOkay,
     shortText,
-    text,
+    text
   };
 };
 
@@ -62,11 +62,12 @@ export async function runAudit(
       },
       stderr: (data: Buffer) => {
         output += data.toString();
-      },
-    },
+      }
+    }
   };
   try {
     const workingDirectory = core.getInput('workingDirectory');
+    const auditResultDirectory = core.getInput('actionName');
     if (workingDirectory) {
       const [owner, repo] = context.repository.split('/');
       const execPath = path.join(
@@ -79,9 +80,9 @@ export async function runAudit(
     await exec('npm', ['audit', '--json', '--audit-level=moderate'], options);
     console.log('output: ', output);
     const auditResult: Audit = JSON.parse(output);
-    fs.mkdirSync('audit');
+    fs.mkdirSync(auditResultDirectory);
     fs.writeFileSync(
-      path.join('audit', 'index.html'),
+      path.join(auditResultDirectory, 'index.html'),
       generateAuditDetails(auditResult)
     );
     return parseAudit(auditResult);
