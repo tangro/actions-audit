@@ -67,7 +67,7 @@ export async function runAudit(
   };
   try {
     const workingDirectory = core.getInput('workingDirectory');
-    const auditResultDirectory = core.getInput('actionName');
+    const auditResultDirectory = core.getInput('actionName') || 'audit';
     if (workingDirectory) {
       const [owner, repo] = context.repository.split('/');
       const execPath = path.join(
