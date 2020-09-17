@@ -26,6 +26,7 @@ export interface Audit {
 
 const parseAudit = (audit: Audit): Result<Audit['metadata']> => {
   const vulnerabilities = audit.metadata.vulnerabilities;
+  core.setOutput('vulnerabilities', JSON.stringify(vulnerabilities));
   const sumOfVulnerabilities = Object.keys(vulnerabilities).reduce(
     (sum, key) => sum + vulnerabilities[key],
     0
