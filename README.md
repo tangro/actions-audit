@@ -28,7 +28,7 @@ audit:
     - name: Run npm install
       run: npm install
     - name: Run audit
-      uses: tangro/@tangro/actions-audit@1.1.13
+      uses: tangro/@tangro/actions-audit@1.1.14
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -53,7 +53,7 @@ It is also possible that the action posts a comment with the result to the commi
 
 ```yml
 - name: Run audit
-  uses: tangro/@tangro/actions-audit@1.1.13
+  uses: tangro/@tangro/actions-audit@1.1.14
   with:
     post-comment: true
   env:
