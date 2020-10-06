@@ -23,7 +23,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
-          npm version -m "Release new version: %s"
+          npm version patch -m "Release new version: %s"
 
   release-latest:
     runs-on: ubuntu-latest
