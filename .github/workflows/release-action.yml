@@ -19,9 +19,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
-          git status
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git commit -a -m "preparing release of new version"
           npm version patch -m "Release new version: %s"
           git add package.json
           git commit -m "updated version"
