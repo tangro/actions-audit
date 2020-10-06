@@ -1,4 +1,4 @@
-# @tangro/actions-audit
+# tangro/actions-audit
 
 A @tangro action to run `npm audit --json`. It also adds a status for the audit. The action fails when the app has `critical` or `high` vulnerabilities.
 
@@ -28,7 +28,7 @@ audit:
     - name: Run npm install
       run: npm install
     - name: Run audit
-      uses: tangro/@tangro/actions-audit@1.1.14
+      uses: tangro/actions-audit@v1.1.14
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -53,7 +53,7 @@ It is also possible that the action posts a comment with the result to the commi
 
 ```yml
 - name: Run audit
-  uses: tangro/@tangro/actions-audit@1.1.14
+  uses: tangro/actions-audit@v1.1.14
   with:
     post-comment: true
   env:

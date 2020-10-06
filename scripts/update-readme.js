@@ -10,10 +10,13 @@ const getActionWithVersion = async (owner, repo) => {
 };
 
 async function main() {
+  const version = `v${package.version}`;
+  const name = package.name.replace('@tangro', 'tangro');
+
   const variables = {
-    version: `v${package.version}`,
-    name: package.name,
-    uses: `tangro/${package.name}@v${package.version}`,
+    version,
+    name,
+    uses: `${name}@${version}`,
     actions: {
       'setup-node': await getActionWithVersion('actions', 'setup-node'),
       checkout: await getActionWithVersion('actions', 'checkout')
