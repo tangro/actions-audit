@@ -4,14 +4,15 @@ A @tangro action to run `npm audit --json`. It also adds a status for the audit.
 
 # Version
 
-You can use a specific `version` of this action. You can also use `latest` to always get the latest version.
+You can use a specific `version` of this action. The latest published version is `v1.1.20`. You can also use `latest` to always get the latest version.
 
-Parameters:
-| Name | Type | Default | Description |
-|--|--|--|--|
-|post-comment | boolean(optional) | false | Set to true to post a comment after the audit result has been collected.|
-|workingDirectory | string(optional) | '' | Set the working directory |
-|actionName | string(optional) | 'audit' | Set different action name. This is needet if the action is uset more than ones in a repo.|
+# Parameters:
+
+| Name             | Type              | Default | Description                                                                               |
+| ---------------- | ----------------- | ------- | ----------------------------------------------------------------------------------------- |
+| post-comment     | boolean(optional) | false   | Set to true to post a comment after the audit result has been collected.                  |
+| workingDirectory | string(optional)  | ''      | Set the working directory                                                                 |
+| actionName       | string(optional)  | 'audit' | Set different action name. This is needet if the action is uset more than ones in a repo. |
 
 # Example
 
@@ -28,7 +29,7 @@ audit:
     - name: Run npm install
       run: npm install
     - name: Run audit
-      uses: tangro/actions-audit@v1.1.19
+      uses: tangro/actions-audit@v1.1.20
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -53,7 +54,7 @@ It is also possible that the action posts a comment with the result to the commi
 
 ```yml
 - name: Run audit
-  uses: tangro/actions-audit@v1.1.19
+  uses: tangro/actions-audit@v1.1.20
   with:
     post-comment: true
   env:
@@ -64,3 +65,11 @@ It is also possible that the action posts a comment with the result to the commi
 # Development
 
 Follow the guide of the [tangro-actions-template](https://github.com/tangro/tangro-actions-template)
+
+# Scripts
+
+- `npm run update-readme` - Run this script to update the README with the latest versions.
+
+  > You do not have to run this script, since it is run automatically by the release action
+
+- `npm run update-dependencies` - Run this script to update all the dependencies
