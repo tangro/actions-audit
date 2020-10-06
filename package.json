@@ -9,7 +9,7 @@
     "update-readme": "node scripts/update-readme.js",
     "update-dependencies": "npx npm-check-updates -u",
     "release": "npm version patch ---git-tag-version && npm run update-readme && git -a -m \"updated README\" && git push",
-    "test": "jest",
+    "test": "ts-node test/test.ts",
     "version": "npm run build && git add -A",
     "postversion": "npm run update-readme && git add -A && git commit -m \"updated readme\" && git push"
   },
@@ -25,9 +25,11 @@
   "dependencies": {
     "@actions/core": "1.2.6",
     "@actions/exec": "1.0.4",
-    "@tangro/tangro-github-toolkit": "1.0.3"
+    "@tangro/tangro-github-toolkit": "1.0.3",
+    "marked": "1.2.0"
   },
   "devDependencies": {
+    "@types/marked": "1.1.0",
     "@types/node": "14.11.5",
     "@zeit/ncc": "0.22.3",
     "ejs": "3.1.5",

@@ -1,4 +1,5 @@
 import { Audit } from './runAudit';
+import marked from 'marked';
 
 const getSeverityStyle = (severity: string) => {
   switch (severity) {
@@ -17,6 +18,23 @@ const getSeverityStyle = (severity: string) => {
   }
 };
 
+const getSeverity = ({ severity }: { severity: string }): number => {
+  switch (severity) {
+    case 'info':
+      return 5;
+    case 'low':
+      return 4;
+    case 'moderate':
+      return 3;
+    case 'high':
+      return 2;
+    case 'critical':
+      return 1;
+    default:
+      return 0;
+  }
+};
+
 export const generateAuditDetails = (auditResult: Audit) => {
   const copyOfAuditResult = { ...auditResult };
   const vulnerabilities = JSON.stringify(
@@ -31,19 +49,21 @@ export const generateAuditDetails = (auditResult: Audit) => {
       <strong>Vulnerabilities</strong>
       <pre><code>${vulnerabilities}</code></pre>
       <ul>
-      ${Object.keys(auditResult.advisories)
-        .map((key) => {
-          const finding = auditResult.advisories[key];
+      ${Object.values(auditResult.advisories)
+        .sort(
+          (findingA, findingB) => getSeverity(findingA) - getSeverity(findingB)
+        )
+        .map(finding => {
           return `
           <li>
             <strong ${getSeverityStyle(finding.severity)}>ModuleName: ${
             finding.module_name
           } (${finding.severity})</strong></br>
-            Problem: ${finding.title}</br>
-            ${finding.overview}</br></br>
+            Problem: ${finding.title}
+            ${marked(finding.overview)}
             Patched versions: ${finding.patched_versions}</br>
             ${finding.findings
-              .map((result) => `paths: ${result.paths} (${result.version})`)
+              .map(result => `paths: ${result.paths} (${result.version})`)
               .join('</br>')}
           </li>`;
         })
