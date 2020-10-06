@@ -92,7 +92,7 @@ audit:
         zip --quiet --recurse-paths ../audit.zip *
     - name: Deploy audit result
       if: always()
-      uses: <%= tangro['actions-deploy] %>
+      uses: <%= tangro['actions-deploy'] %>
       with:
         context: auto
         zip-file: audit.zip
