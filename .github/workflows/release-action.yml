@@ -23,6 +23,7 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git commit -a -m "preparing release of new version"
           npm version patch -m "Release new version: %s"
+          git push --tags
 
   release-latest:
     runs-on: ubuntu-latest
