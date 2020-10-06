@@ -12,7 +12,7 @@ You can use a specific `version` of this action. The latest published version is
 | ---------------- | ----------------- | ------- | ----------------------------------------------------------------------------------------- |
 | post-comment     | boolean(optional) | false   | Set to true to post a comment after the audit result has been collected.                  |
 | workingDirectory | string(optional)  | ''      | Set the working directory                                                                 |
-| actionName       | string(optional)  | 'audit' | Set different action name. This is needet if the action is uset more than ones in a repo. |
+| actionName       | string(optional)  | 'audit' | Set different action name. This is needed if the action is used more than ones in a repo. |
 
 # Example
 
