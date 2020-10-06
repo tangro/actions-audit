@@ -20,9 +20,10 @@ jobs:
       - name: npm install
         run: npm install
       - name: release new version
-        run: npm version -m "Release new version: %s"
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: |
+          npm version -m "Release new version: %s"
 
   release-latest:
     runs-on: ubuntu-latest
