@@ -5,7 +5,7 @@
   "description": "Run npm audit",
   "main": "lib/main.js",
   "scripts": {
-    "build": "ncc build src/main.ts --minify",
+    "build": "rimraf dist && ncc build src/main.ts --minify",
     "update-readme": "node scripts/update-readme.js",
     "update-dependencies": "npx npm-check-updates -u",
     "release": "npm version patch ---git-tag-version && npm run update-readme && git -a -m \"updated README\" && git push",
@@ -31,6 +31,7 @@
     "@types/node": "14.11.5",
     "@zeit/ncc": "0.22.3",
     "ejs": "3.1.5",
+    "rimraf": "3.0.2",
     "typescript": "4.0.3"
   }
 }
