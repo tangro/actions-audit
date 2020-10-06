@@ -6,7 +6,12 @@ const package = require('../package.json');
 
 const getActionWithVersion = async (owner, repo) => {
   const response = await github.repos.listTags({ owner, repo });
-  return `${owner}/${repo}@${response.data[0].name}`;
+  const latestTag = response.data[0].name;
+  // GitHub uses the vX (e.g. v2) tag for all minor and patch releases under the vX (v2) major version.
+  // So it's better to use the major version instead of a fixed patch version
+  const latestVersion =
+    owner === 'actions' ? latestTag.split('.')[0] : latestTag;
+  return `${owner}/${repo}@${latestVersion}`;
 };
 
 async function main() {
