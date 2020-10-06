@@ -62,6 +62,51 @@ It is also possible that the action posts a comment with the result to the commi
     GITHUB_CONTEXT: ${{ toJson(github) }}
 ```
 
+# Using with a static file server
+
+You can also publish the test results to a static file server. The action will write the results into `${actionName}/index.html`. The `${actionName}` can be set via a parameter. Otherwise `"audit"` will be used as the folder.
+
+You can publish the results with our custom [deploy actions](https://github.com/tangro/actions-deploy)
+
+```yml
+audit:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout latest code
+      uses: <%= actions.checkout %>
+    - name: Use Node.js 12.x
+      uses: <%= actions['setup-node'] %>
+      with:
+        node-version: 12.x
+    - name: Run npm install
+      run: npm install
+    - name: Run audit
+      uses: <%= uses %>
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+    - name: Zip license check result
+      if: always()
+      run: |
+        cd audit
+        zip --quiet --recurse-paths ../audit.zip *
+    - name: Deploy audit result
+      if: always()
+      uses: <%= tangro['actions-deploy] %>
+      with:
+        context: auto
+        zip-file: audit.zip
+        deploy-url: ${{secrets.DEPLOY_URL}}
+        project: audit
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+        DEPLOY_PASSWORD: ${{ secrets.DEPLOY_PASSWORD }}
+        DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+```
+
+> **Attention** Do not forget to use the correct `DEPLOY_URL` and provide all the tokens the actions need.
+
 # Development
 
 Follow the guide of the [tangro-actions-template](https://github.com/tangro/tangro-actions-template)
