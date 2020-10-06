@@ -11,7 +11,7 @@
     "release": "npm version patch ---git-tag-version && npm run update-readme && git -a -m \"updated README\" && git push",
     "test": "jest",
     "version": "npm run build && git add -A",
-    "postversion": "npm run update-readme && git add -A && git commit -m \"uptdated readme\" && git push --tags"
+    "postversion": "npm run update-readme && git add -A && git commit -m \"updated readme\" && git push"
   },
   "repository": {
     "type": "git",
