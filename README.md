@@ -4,7 +4,7 @@ A @tangro action to run `npm audit --json`. It also adds a status for the audit.
 
 # Version
 
-You can use a specific `version` of this action. The latest published version is `v1.1.27`. You can also use `latest` to always get the latest version.
+You can use a specific `version` of this action. The latest published version is `v1.1.28`. You can also use `latest` to always get the latest version.
 
 # Parameters:
 
@@ -23,13 +23,13 @@ audit:
     - name: Checkout latest code
       uses: actions/checkout@v2
     - name: Use Node.js 12.x
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v2.1.2
       with:
         node-version: 12.x
     - name: Run npm install
       run: npm install
     - name: Run audit
-      uses: tangro/actions-audit@v1.1.27
+      uses: tangro/actions-audit@v1.1.28
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -54,7 +54,7 @@ It is also possible that the action posts a comment with the result to the commi
 
 ```yml
 - name: Run audit
-  uses: tangro/actions-audit@v1.1.27
+  uses: tangro/actions-audit@v1.1.28
   with:
     post-comment: true
   env:
@@ -75,13 +75,13 @@ audit:
     - name: Checkout latest code
       uses: actions/checkout@v2
     - name: Use Node.js 12.x
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v2.1.2
       with:
         node-version: 12.x
     - name: Run npm install
       run: npm install
     - name: Run audit
-      uses: tangro/actions-audit@v1.1.27
+      uses: tangro/actions-audit@v1.1.28
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_CONTEXT: ${{ toJson(github) }}
