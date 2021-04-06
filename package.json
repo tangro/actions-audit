@@ -27,7 +27,7 @@
     "marked": "2.0.1"
   },
   "devDependencies": {
-    "@types/marked": "2.0.0",
+    "@types/marked": "2.0.1",
     "@types/node": "14.14.37",
     "@zeit/ncc": "0.22.3",
     "ejs": "3.1.6",
