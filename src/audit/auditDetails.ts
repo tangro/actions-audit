@@ -1,5 +1,5 @@
 import { Audit } from './runAudit';
-import marked from 'marked';
+import { marked } from 'marked';
 
 const getSeverityStyle = (severity: string) => {
   switch (severity) {
