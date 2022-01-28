@@ -91,6 +91,8 @@ export async function runAudit(
       path.join(auditResultDirectory, 'index.html'),
       generateAuditDetails(auditResult)
     );
+
+    console.log('auditResult ', parseAudit(auditResult));
     return parseAudit(auditResult);
   } catch (error) {
     console.error('error: ', error);
