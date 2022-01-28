@@ -4,17 +4,17 @@ A @tangro action to run `npm audit --json`. It also adds a status for the audit.
 
 # Version
 
-You can use a specific `version` of this action. The latest published version is `v1.1.35`. You can also use `latest` to always get the latest version.
+You can use a specific `version` of this action. The latest published version is `v1.1.36`. You can also use `latest` to always get the latest version.
 
 # Parameters:
 
 | Name             | Type              | Default    | Description                                                                               |
-| ---------------- | ----------------- | ---------- | ----------------------------------------------------------------------------------------- | -------- | ---- | ---------- |
+| ---------------- | ----------------- | ---------- | ----------------------------------------------------------------------------------------- |
 | post-comment     | boolean(optional) | false      | Set to true to post a comment after the audit result has been collected.                  |
 | workingDirectory | string(optional)  | ''         | Set the working directory                                                                 |
 | actionName       | string(optional)  | 'audit'    | Set different action name. This is needed if the action is used more than ones in a repo. |
 | production       | boolean(optional) | false      | Set to true to not run on devDependencies.                                                |
-| auditLevel       | string(optional)  | 'moderate' | Set to change audit level. (allowed strings low                                           | moderate | high | critical ) |
+| auditLevel       | string(optional)  | 'moderate' | Set to change audit level. (allowed strings low, moderate, high, critical )               |
 
 # Example
 
@@ -31,7 +31,7 @@ audit:
     - name: Run npm install
       run: npm install
     - name: Run audit
-      uses: tangro/actions-audit@v1.1.35
+      uses: tangro/actions-audit@v1.1.36
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -56,7 +56,7 @@ It is also possible that the action posts a comment with the result to the commi
 
 ```yml
 - name: Run audit
-  uses: tangro/actions-audit@v1.1.35
+  uses: tangro/actions-audit@v1.1.36
   with:
     post-comment: true
   env:
@@ -83,7 +83,7 @@ audit:
     - name: Run npm install
       run: npm install
     - name: Run audit
-      uses: tangro/actions-audit@v1.1.35
+      uses: tangro/actions-audit@v1.1.36
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_CONTEXT: ${{ toJson(github) }}
