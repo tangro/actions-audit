@@ -69,6 +69,9 @@ export async function runAudit(
   try {
     const workingDirectory = core.getInput('workingDirectory');
     const auditResultDirectory = core.getInput('actionName') || 'audit';
+    const productionOnly = core.getInput('production') === 'true';
+    const auditLevel = core.getInput('auditLevel') || 'moderate';
+
     if (workingDirectory) {
       const [owner, repo] = context.repository.split('/');
       const execPath = path.join(
@@ -78,7 +81,9 @@ export async function runAudit(
       );
       options['cwd'] = execPath;
     }
-    await exec('npm', ['audit', '--json', '--audit-level=moderate'], options);
+    const params = ['audit', '--json', `--audit-level=${auditLevel}`];
+    productionOnly && params.push('--production');
+    await exec('npm', params, options);
     console.log('output: ', output);
     const auditResult: Audit = JSON.parse(output);
     fs.mkdirSync(auditResultDirectory);

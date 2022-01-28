@@ -8,11 +8,13 @@ You can use a specific `version` of this action. The latest published version is
 
 # Parameters:
 
-| Name             | Type              | Default | Description                                                                               |
-| ---------------- | ----------------- | ------- | ----------------------------------------------------------------------------------------- |
-| post-comment     | boolean(optional) | false   | Set to true to post a comment after the audit result has been collected.                  |
-| workingDirectory | string(optional)  | ''      | Set the working directory                                                                 |
-| actionName       | string(optional)  | 'audit' | Set different action name. This is needed if the action is used more than ones in a repo. |
+| Name             | Type              | Default    | Description                                                                               |
+| ---------------- | ----------------- | ---------- | ----------------------------------------------------------------------------------------- | -------- | ---- | ---------- |
+| post-comment     | boolean(optional) | false      | Set to true to post a comment after the audit result has been collected.                  |
+| workingDirectory | string(optional)  | ''         | Set the working directory                                                                 |
+| actionName       | string(optional)  | 'audit'    | Set different action name. This is needed if the action is used more than ones in a repo. |
+| production       | boolean(optional) | false      | Set to true to not run on devDependencies.                                                |
+| auditLevel       | string(optional)  | 'moderate' | Set to change audit level. (allowed strings low                                           | moderate | high | critical ) |
 
 # Example
 

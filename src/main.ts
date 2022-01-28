@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 import {
   GitHubContext,
   createComment,
-  wrapWithSetStatus,
+  wrapWithSetStatus
 } from '@tangro/tangro-github-toolkit';
 import { runAudit } from './audit/runAudit';
 import { createCommentText } from './audit/comment';
@@ -34,10 +34,10 @@ async function run() {
     if (core.getInput('post-comment') === 'true' && result) {
       createComment({
         context,
-        comment: createCommentText(result),
+        comment: createCommentText(result)
       });
     }
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
     core.setFailed(error.message);
   }
