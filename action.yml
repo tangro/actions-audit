@@ -11,6 +11,10 @@ inputs:
   actionName:
     description: 'Set different action (and output directory) name. This is needed if the action is used more than once in a repo.'
     default: 'audit'
+  production:
+    description: 'Set to true to not run on devDependencies.'
+    default: false    
+    
 outputs:
   vulnerabilities:
     description: '{ info: number, low: number, moderate: number, high: number, critical: number }'
