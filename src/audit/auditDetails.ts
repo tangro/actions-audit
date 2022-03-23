@@ -49,7 +49,7 @@ export const generateAuditDetails = (auditResult: Audit) => {
       <strong>Vulnerabilities</strong>
       <pre><code>${vulnerabilities}</code></pre>
       <ul>
-      ${Object.values(auditResult.advisories)
+      ${Object.values(auditResult.advisories || {})
         .sort(
           (findingA, findingB) => getSeverity(findingA) - getSeverity(findingB)
         )
