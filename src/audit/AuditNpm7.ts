@@ -61,7 +61,9 @@ export const generateDetailsNpm7 = (auditResult: AuditNpm7) => {
         <strong ${getSeverityStyle(finding.severity)}>ModuleName: ${
         finding.name
       } (${finding.severity})</strong></br>
-        Patched versions: ${finding.fixAvailable.version}</br>
+        Patched: ${finding.fixAvailable.name} - ${
+        finding.fixAvailable.version
+      }</br>
         ${
           finding.effects.length > 0
             ? `Used in Packages: ${finding.effects.join(', ')}`
