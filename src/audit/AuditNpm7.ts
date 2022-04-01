@@ -61,9 +61,12 @@ export const generateDetailsNpm7 = (auditResult: AuditNpm7) => {
         <strong ${getSeverityStyle(finding.severity)}>ModuleName: ${
         finding.name
       } (${finding.severity})</strong></br>
-        Effected Packages:</br> ${finding.effects.join('</br>')}
         Patched versions: ${finding.fixAvailable.version}</br>
-        Path:</br> ${finding.nodes.join('</br>')}
+        ${
+          finding.effects.length > 0
+            ? `Used in Packages: ${finding.effects.join(', ')}`
+            : ''
+        }
       </li>`;
     })
     .join('</br>')}
