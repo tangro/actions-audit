@@ -1,7 +1,8 @@
+import { generateDetailsNpm7, isAuditNpm7 } from './AuditNpm7';
+import { generateDetailsNpm6 } from './AuditNpm6';
 import { Audit } from './runAudit';
-import { marked } from 'marked';
 
-const getSeverityStyle = (severity: string) => {
+export const getSeverityStyle = (severity: string) => {
   switch (severity) {
     case 'info':
       return '';
@@ -18,7 +19,7 @@ const getSeverityStyle = (severity: string) => {
   }
 };
 
-const getSeverity = ({ severity }: { severity: string }): number => {
+export const getSeverity = (severity: string): number => {
   switch (severity) {
     case 'info':
       return 5;
@@ -48,27 +49,11 @@ export const generateAuditDetails = (auditResult: Audit) => {
     <body>
       <strong>Vulnerabilities</strong>
       <pre><code>${vulnerabilities}</code></pre>
-      <ul>
-      ${Object.values(auditResult.advisories || {})
-        .sort(
-          (findingA, findingB) => getSeverity(findingA) - getSeverity(findingB)
-        )
-        .map(finding => {
-          return `
-          <li>
-            <strong ${getSeverityStyle(finding.severity)}>ModuleName: ${
-            finding.module_name
-          } (${finding.severity})</strong></br>
-            Problem: ${finding.title}
-            ${marked(finding.overview)}
-            Patched versions: ${finding.patched_versions}</br>
-            ${finding.findings
-              .map(result => `paths: ${result.paths} (${result.version})`)
-              .join('</br>')}
-          </li>`;
-        })
-        .join('</br>')}
-      </ul>
+      ${
+        isAuditNpm7(auditResult)
+          ? generateDetailsNpm7(auditResult)
+          : generateDetailsNpm6(auditResult)
+      }
       </br>
       <details>
         <summary>Full audit.json</summary>

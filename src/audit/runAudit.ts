@@ -4,25 +4,10 @@ import * as fs from 'fs';
 import path from 'path';
 import { Result, GitHubContext } from '@tangro/tangro-github-toolkit';
 import { generateAuditDetails } from './auditDetails';
+import { AuditNpm7, isAuditNpm7 } from './AuditNpm7';
+import { AuditNpm6 } from './AuditNpm6';
 
-export interface Audit {
-  actions: Array<any>;
-  muted: Array<any>;
-  advisories: { [key: string]: any };
-  metadata: {
-    vulnerabilities: {
-      info: number;
-      low: number;
-      moderate: number;
-      high: number;
-      critical: number;
-    };
-    dependencies: number;
-    devDependencies: number;
-    optionalDependencies: number;
-    totalDependencies: number;
-  };
-}
+export type Audit = AuditNpm6 | AuditNpm7;
 
 const parseAudit = (audit: Audit): Result<Audit['metadata']> => {
   const vulnerabilities = audit.metadata.vulnerabilities;
@@ -36,7 +21,11 @@ const parseAudit = (audit: Audit): Result<Audit['metadata']> => {
   const metadata = audit.metadata;
   const text = `${sumOfVulnerabilities} ${
     sumOfVulnerabilities === 1 ? 'vulnerability' : 'vulnerabilities'
-  } detected in ${audit.metadata.totalDependencies} total dependencies:
+  } detected in ${
+    isAuditNpm7(audit)
+      ? audit.metadata.dependencies.total
+      : audit.metadata.totalDependencies
+  } total dependencies:
   \ninfo: ${vulnerabilities.info}
   \nlow: ${vulnerabilities.low}
   \nmoderate: ${vulnerabilities.moderate}
