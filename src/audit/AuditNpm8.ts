@@ -8,7 +8,13 @@ interface VulnerabilityNpm8 {
   effects: Array<string>;
   range: string;
   nodes: Array<string>;
-  fixAvailable: boolean;
+  fixAvailable:
+    | {
+        name: string;
+        version: string;
+        isSemVerMajor: boolean;
+      }
+    | boolean;
 }
 
 export interface AuditNpm8 {
@@ -46,7 +52,13 @@ export const generateDetailsNpm8 = (auditResult: AuditNpm8) => {
         <strong ${getSeverityStyle(finding.severity)}>ModuleName: ${
         finding.name
       } (${finding.severity})</strong></br>
-        Patched: ${finding.fixAvailable} (Problem range ${finding.range})</br>
+
+        Patched: ${
+          typeof finding.fixAvailable === 'object'
+            ? `${finding.fixAvailable.name} - ${finding.fixAvailable.version}`
+            : `${finding.fixAvailable} (Problem range ${finding.range})`
+        }</br>
+
         ${
           finding.effects.length > 0
             ? `Used in Packages: ${finding.effects.join(', ')}`
