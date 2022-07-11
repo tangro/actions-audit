@@ -1,5 +1,6 @@
-import { generateDetailsNpm7, isAuditNpm7 } from './AuditNpm7';
-import { generateDetailsNpm6 } from './AuditNpm6';
+import { AuditNpm8, generateDetailsNpm8 } from './AuditNpm8';
+import { AuditNpm7, generateDetailsNpm7 } from './AuditNpm7';
+import { AuditNpm6, generateDetailsNpm6 } from './AuditNpm6';
 import { Audit } from './runAudit';
 
 export const getSeverityStyle = (severity: string) => {
@@ -36,7 +37,19 @@ export const getSeverity = (severity: string): number => {
   }
 };
 
-export const generateAuditDetails = (auditResult: Audit) => {
+const generateDetailsForNmpVersion = (auditResult: Audit, version: number) => {
+  switch (version) {
+    case 6:
+      return generateDetailsNpm6(auditResult as AuditNpm6);
+    case 7:
+      return generateDetailsNpm7(auditResult as AuditNpm7);
+    case 8:
+    default:
+      return generateDetailsNpm8(auditResult as AuditNpm8);
+  }
+};
+
+export const generateAuditDetails = (auditResult: Audit, version: number) => {
   const copyOfAuditResult = { ...auditResult };
   const vulnerabilities = JSON.stringify(
     auditResult.metadata.vulnerabilities,
@@ -49,11 +62,7 @@ export const generateAuditDetails = (auditResult: Audit) => {
     <body>
       <strong>Vulnerabilities</strong>
       <pre><code>${vulnerabilities}</code></pre>
-      ${
-        isAuditNpm7(auditResult)
-          ? generateDetailsNpm7(auditResult)
-          : generateDetailsNpm6(auditResult)
-      }
+      ${generateDetailsForNmpVersion(auditResult, version)}
       </br>
       <details>
         <summary>Full audit.json</summary>

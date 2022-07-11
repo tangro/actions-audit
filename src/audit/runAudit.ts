@@ -4,10 +4,17 @@ import * as fs from 'fs';
 import path from 'path';
 import { Result, GitHubContext } from '@tangro/tangro-github-toolkit';
 import { generateAuditDetails } from './auditDetails';
-import { AuditNpm7, isAuditNpm7 } from './AuditNpm7';
+import { AuditNpm8 } from './AuditNpm8';
+import { AuditNpm7 } from './AuditNpm7';
 import { AuditNpm6 } from './AuditNpm6';
 
-export type Audit = AuditNpm6 | AuditNpm7;
+export type Audit = AuditNpm6 | AuditNpm7 | AuditNpm8;
+
+export const getTotalDependencies = (metadata: Audit['metadata']) => {
+  return (metadata as any).totalDependencies
+    ? (metadata as any).totalDependencies
+    : (metadata as any).dependencies.total;
+};
 
 const parseAudit = (audit: Audit): Result<Audit['metadata']> => {
   const vulnerabilities = audit.metadata.vulnerabilities;
@@ -21,11 +28,7 @@ const parseAudit = (audit: Audit): Result<Audit['metadata']> => {
   const metadata = audit.metadata;
   const text = `${sumOfVulnerabilities} ${
     sumOfVulnerabilities === 1 ? 'vulnerability' : 'vulnerabilities'
-  } detected in ${
-    isAuditNpm7(audit)
-      ? audit.metadata.dependencies.total
-      : audit.metadata.totalDependencies
-  } total dependencies:
+  } detected in ${getTotalDependencies(metadata)} total dependencies:
   \ninfo: ${vulnerabilities.info}
   \nlow: ${vulnerabilities.low}
   \nmoderate: ${vulnerabilities.moderate}
@@ -43,6 +46,18 @@ const parseAudit = (audit: Audit): Result<Audit['metadata']> => {
 export async function runAudit(
   context: GitHubContext<{}>
 ): Promise<Result<Audit['metadata']>> {
+  let versionOutput = '';
+  const versionOptions = {
+    ignoreReturnCode: true,
+    listeners: {
+      stdout: (data: Buffer) => {
+        versionOutput += data.toString();
+      },
+      stderr: (data: Buffer) => {
+        versionOutput += data.toString();
+      }
+    }
+  };
   let output = '';
   const options = {
     ignoreReturnCode: true,
@@ -71,14 +86,20 @@ export async function runAudit(
       options['cwd'] = execPath;
     }
     const params = ['audit', '--json', `--audit-level=${auditLevel}`];
-    productionOnly && params.push('--production');
+    await exec('npm --version', [], versionOptions);
+    const version = JSON.parse(versionOutput).split('.')[0];
+
+    if (productionOnly) {
+      params.push(version >= 8 ? '--omit=dev' : '--production');
+    }
+
     await exec('npm', params, options);
     console.log('output: ', output);
     const auditResult: Audit = JSON.parse(output);
     fs.mkdirSync(auditResultDirectory);
     fs.writeFileSync(
       path.join(auditResultDirectory, 'index.html'),
-      generateAuditDetails(auditResult)
+      generateAuditDetails(auditResult, version)
     );
     return parseAudit(auditResult);
   } catch (error) {

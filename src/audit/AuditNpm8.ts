@@ -1,7 +1,6 @@
 import { getSeverity, getSeverityStyle } from './auditDetails';
-import { Audit } from './runAudit';
 
-interface VulnerabilityNpm7 {
+interface VulnerabilityNpm8 {
   name: string;
   severity: string;
   isDirect: boolean;
@@ -9,16 +8,12 @@ interface VulnerabilityNpm7 {
   effects: Array<string>;
   range: string;
   nodes: Array<string>;
-  fixAvailable: {
-    name: string;
-    version: string;
-    isSemVerMajor: boolean;
-  };
+  fixAvailable: boolean;
 }
 
-export interface AuditNpm7 {
+export interface AuditNpm8 {
   auditReportVersion: string;
-  vulnerabilities: Record<string, VulnerabilityNpm7>;
+  vulnerabilities: Record<string, VulnerabilityNpm8>;
   metadata: {
     vulnerabilities: {
       info: number;
@@ -38,13 +33,7 @@ export interface AuditNpm7 {
   };
 }
 
-export const isAuditMeatDataNpm7 = (
-  audit: Audit['metadata']
-): audit is AuditNpm7['metadata'] => {
-  return (audit as AuditNpm7['metadata']).dependencies.total !== undefined;
-};
-
-export const generateDetailsNpm7 = (auditResult: AuditNpm7) => {
+export const generateDetailsNpm8 = (auditResult: AuditNpm8) => {
   return `<ul>
   ${Object.values(auditResult.vulnerabilities || {})
     .sort(
@@ -57,9 +46,7 @@ export const generateDetailsNpm7 = (auditResult: AuditNpm7) => {
         <strong ${getSeverityStyle(finding.severity)}>ModuleName: ${
         finding.name
       } (${finding.severity})</strong></br>
-        Patched: ${finding.fixAvailable.name} - ${
-        finding.fixAvailable.version
-      }</br>
+        Patched: ${finding.fixAvailable} (Problem range ${finding.range})</br>
         ${
           finding.effects.length > 0
             ? `Used in Packages: ${finding.effects.join(', ')}`
