@@ -87,7 +87,7 @@ export async function runAudit(
     }
     const params = ['audit', '--json', `--audit-level=${auditLevel}`];
     await exec('npm --version', [], versionOptions);
-    const version = JSON.parse(versionOutput).split('.')[0];
+    const version = parseInt(versionOutput.split('.')[0], 10);
 
     if (productionOnly) {
       params.push(version >= 8 ? '--omit=dev' : '--production');
