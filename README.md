@@ -24,10 +24,10 @@ audit:
   steps:
     - name: Checkout latest code
       uses: actions/checkout@v3
-    - name: Use Node.js 14.x
-      uses: actions/setup-node@v3.3.0
+    - name: Use Node.js 16.x
+      uses: actions/setup-node@v3.5.1
       with:
-        node-version: 14.x
+        node-version: 16.x
     - name: Run npm install
       run: npm install
     - name: Run audit
@@ -76,10 +76,10 @@ audit:
   steps:
     - name: Checkout latest code
       uses: actions/checkout@v3
-    - name: Use Node.js 14.x
-      uses: actions/setup-node@v3.3.0
+    - name: Use Node.js 16.x
+      uses: actions/setup-node@v3.5.1
       with:
-        node-version: 14.x
+        node-version: 16.x
     - name: Run npm install
       run: npm install
     - name: Run audit

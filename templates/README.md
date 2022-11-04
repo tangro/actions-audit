@@ -24,10 +24,10 @@ audit:
   steps:
     - name: Checkout latest code
       uses: <%= actions.checkout %>
-    - name: Use Node.js 12.x
+    - name: Use Node.js 16.x
       uses: <%= actions['setup-node'] %>
       with:
-        node-version: 12.x
+        node-version: 16.x
     - name: Run npm install
       run: npm install
     - name: Run audit
@@ -76,10 +76,10 @@ audit:
   steps:
     - name: Checkout latest code
       uses: <%= actions.checkout %>
-    - name: Use Node.js 12.x
+    - name: Use Node.js 16.x
       uses: <%= actions['setup-node'] %>
       with:
-        node-version: 12.x
+        node-version: 16.x
     - name: Run npm install
       run: npm install
     - name: Run audit
