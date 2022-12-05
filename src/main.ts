@@ -26,8 +26,6 @@ async function run() {
       process.env.GITHUB_CONTEXT || ''
     ) as GitHubContext<{}>;
 
-    console.log({ sha: context.sha });
-
     const actionName = core.getInput('actionName') || 'audit';
     const result = await wrapWithSetStatus(context, actionName, async () => {
       return await runAudit(context);
