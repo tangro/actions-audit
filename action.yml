@@ -20,5 +20,5 @@ outputs:
     description: '{ info: number, low: number, moderate: number, high: number, critical: number }'
 
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
