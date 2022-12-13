@@ -24,14 +24,14 @@
     "@actions/core": "1.10.0",
     "@actions/exec": "1.1.1",
     "@tangro/tangro-github-toolkit": "1.0.9",
-    "marked": "4.2.3"
+    "marked": "4.2.4"
   },
   "devDependencies": {
-    "@types/marked": "4.0.7",
-    "@types/node": "18.11.11",
+    "@types/marked": "4.0.8",
+    "@types/node": "18.11.14",
     "@zeit/ncc": "0.22.3",
     "ejs": "3.1.8",
     "rimraf": "3.0.2",
-    "typescript": "4.9.3"
+    "typescript": "4.9.4"
   }
 }
