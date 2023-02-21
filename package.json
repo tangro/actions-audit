@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@types/marked": "4.0.8",
-    "@types/node": "18.13.0",
+    "@types/node": "18.14.0",
     "@zeit/ncc": "0.22.3",
     "ejs": "3.1.8",
     "rimraf": "4.1.2",
