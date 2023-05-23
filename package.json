@@ -28,10 +28,10 @@
     "marked": "5.0.2"
   },
   "devDependencies": {
-    "@types/marked": "4.3.0",
-    "@types/node": "20.1.5",
+    "@types/marked": "5.0.0",
+    "@types/node": "20.2.3",
     "ejs": "3.1.9",
-    "rimraf": "5.0.0",
+    "rimraf": "5.0.1",
     "typescript": "5.0.4"
   }
 }
