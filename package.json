@@ -25,13 +25,13 @@
     "@actions/exec": "1.1.1",
     "@tangro/tangro-github-toolkit": "1.0.9",
     "@vercel/ncc": "0.38.1",
-    "marked": "13.0.1"
+    "marked": "13.0.2"
   },
   "devDependencies": {
     "@types/marked": "5.0.2",
-    "@types/node": "20.14.9",
+    "@types/node": "20.14.10",
     "ejs": "3.1.10",
-    "rimraf": "5.0.7",
+    "rimraf": "6.0.0",
     "typescript": "5.5.3"
   }
 }
