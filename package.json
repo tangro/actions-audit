@@ -25,7 +25,7 @@
     "@actions/exec": "1.1.1",
     "@tangro/tangro-github-toolkit": "1.0.10",
     "@vercel/ncc": "0.38.3",
-    "marked": "15.0.8"
+    "marked": "15.0.9"
   },
   "devDependencies": {
     "@types/marked": "6.0.0",
