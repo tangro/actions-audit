@@ -4,7 +4,7 @@ A @tangro action to run `npm audit --json`. It also adds a status for the audit.
 
 # Version
 
-You can use a specific `version` of this action. The latest published version is `v2.0.30`. You can also use `latest` to always get the latest version.
+You can use a specific `version` of this action. The latest published version is `v2.0.31`. You can also use `latest` to always get the latest version.
 
 # Parameters:
 
@@ -25,13 +25,13 @@ audit:
     - name: Checkout latest code
       uses: actions/checkout@v6
     - name: Use Node.js 16.x
-      uses: actions/setup-node@v6.0.0
+      uses: actions/setup-node@v6.1.0
       with:
         node-version: 16.x
     - name: Run npm install
       run: npm install
     - name: Run audit
-      uses: tangro/actions-audit@v2.0.30
+      uses: tangro/actions-audit@v2.0.31
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -56,7 +56,7 @@ It is also possible that the action posts a comment with the result to the commi
 
 ```yml
 - name: Run audit
-  uses: tangro/actions-audit@v2.0.30
+  uses: tangro/actions-audit@v2.0.31
   with:
     post-comment: true
   env:
@@ -77,13 +77,13 @@ audit:
     - name: Checkout latest code
       uses: actions/checkout@v6
     - name: Use Node.js 16.x
-      uses: actions/setup-node@v6.0.0
+      uses: actions/setup-node@v6.1.0
       with:
         node-version: 16.x
     - name: Run npm install
       run: npm install
     - name: Run audit
-      uses: tangro/actions-audit@v2.0.30
+      uses: tangro/actions-audit@v2.0.31
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -94,7 +94,7 @@ audit:
         zip --quiet --recurse-paths ../audit.zip *
     - name: Deploy audit result
       if: always()
-      uses: tangro/actions-deploy@v1.2.22
+      uses: tangro/actions-deploy@v1.2.23
       with:
         context: auto
         zip-file: audit.zip
